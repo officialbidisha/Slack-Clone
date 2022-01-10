@@ -1,21 +1,17 @@
-import { doc, addDoc, setDoc } from "firebase/firestore/lite";
-import { getFirestore, collection } from "firebase/firestore";
+import { addDoc, collection } from "firebase/firestore/lite";
 import React from "react";
-import { db, firebaseApp } from "../../src/firebase";
+import { db } from "../../src/firebase";
 import classes from "./SideBarOption.module.css";
-import { useCollection } from "react-firebase-hooks/firestore";
-function SideBarOption({ Icon, title, addChannelOption }) {
-  const [channels, loading, error] = useCollection(
-    collection(getFirestore(firebaseApp), "rooms"),
-    {
-      snapshotListenOptions: { includeMetadataChanges: true },
-    }
-  );
+import { useDispatch } from "react-redux";
+import { enterRoom } from "../../src/features/appSlice";
 
-  console.log('Channels', channels);
+function SideBarOption({ Icon, title, addChannelOption, id }) {
+  const dispatch = useDispatch();
 
   const addChannel = async () => {
+    debugger;
     const channelName = prompt("Please enter the channel name");
+    console.log(db);
     if (channelName) {
       const docRef = await addDoc(collection(db, "rooms"), {
         name: channelName,
@@ -23,7 +19,15 @@ function SideBarOption({ Icon, title, addChannelOption }) {
     }
   };
 
-  const selectChannel = () => {};
+  const selectChannel = () => {
+    if (id) {
+      dispatch(
+        enterRoom({
+          roomId: id,
+        })
+      );
+    }
+  };
 
   return (
     <div

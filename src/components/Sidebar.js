@@ -13,10 +13,20 @@ import FileCopyIcon from '@mui/icons-material/FileCopy';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import AddIcon from '@mui/icons-material/Add';
+import { useCollection } from "react-firebase-hooks/firestore";
+
+import { getFirestore, collection } from "firebase/firestore";
+import {  firebaseApp } from "../../src/firebase";
 
 import classes from "./Sidebar.module.css";
 
 function Sidebar() {
+  const [channels, loading, error] = useCollection(
+    collection(getFirestore(firebaseApp), "rooms"),
+    {
+      snapshotListenOptions: { includeMetadataChanges: true },
+    }
+  );
   return (
     <div className={classes["sidebar-container"]}>
       <div className={classes["sidebar-header"]}>
@@ -39,9 +49,12 @@ function Sidebar() {
       <SidebarOption Icon={FileCopyIcon} title="File Browser"></SidebarOption>
       <SidebarOption Icon={ExpandLessIcon} title ="Show Less"> </SidebarOption>
       <hr/>
-      <SidebarOption Icon={ExpandMoreIcon} title="Show More"></SidebarOption>
+      <SidebarOption Icon={ExpandMoreIcon} title="Channels"></SidebarOption>
       <hr/>
       <SidebarOption Icon={AddIcon} addChannelOption title="Add Channel"/>
+      { channels && channels?.docs.map(doc => (
+          <SidebarOption  key={doc.id} id={doc.id} title={doc.data().name}/>
+      ))}
      </div>
   );
 }

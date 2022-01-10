@@ -18,3 +18,8 @@
 .sidebar-option-container h3>span{
     padding: 15px;
 }
+
+.sidebar-option-channel{
+    padding: 10px 0;
+    font-weight: 300;
+  }
