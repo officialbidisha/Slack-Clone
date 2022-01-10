@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Header from "./components/Header";
 import Sidebar from "./components/Sidebar";
 import classes from './App.module.css';
+import Chat from "./components/Chat";
 function App() {
   return (
     <div className="App">
@@ -14,7 +15,7 @@ function App() {
             <Routes>
               <Route path="/about"></Route>
               <Route path="/users"></Route>
-              {/* <Route path="/" element={<Header/>}></Route> */}
+              <Route path="/" element={<Chat/>}></Route>
             </Routes>
           </div>
         </>

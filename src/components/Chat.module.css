@@ -1,0 +1,46 @@
+.chat-container{
+    flex: 0.7;
+    flex-grow: 1;
+    overflow-y: scroll;
+    margin-top: 60px;
+}
+.header{
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+    border-bottom: 1px solid lightgray;
+}
+
+.header-left h4{
+    display: flex;
+    text-transform: lowercase;
+    margin-right: 10px;
+}
+
+.star{
+    margin-left: 10px;
+    font-size: 18px;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+}
+
+.header-right p{
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+}
+
+.info{
+    margin-right: 5px;
+    font-size: 16px;
+}
+
+/**
+* Chat Messages
+*/
+.chat-messages{
+    
+}
