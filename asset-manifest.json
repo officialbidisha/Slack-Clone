@@ -1,10 +1,10 @@
 {
   "files": {
-    "main.css": "/officialbidisha/Slack-Clone-.io/static/css/main.f81d7245.css",
-    "main.js": "/officialbidisha/Slack-Clone-.io/static/js/main.91795c3f.js",
-    "index.html": "/officialbidisha/Slack-Clone-.io/index.html",
-    "main.f81d7245.css.map": "/officialbidisha/Slack-Clone-.io/static/css/main.f81d7245.css.map",
-    "main.91795c3f.js.map": "/officialbidisha/Slack-Clone-.io/static/js/main.91795c3f.js.map"
+    "main.css": "/Slack-Clone-/static/css/main.f81d7245.css",
+    "main.js": "/Slack-Clone-/static/js/main.91795c3f.js",
+    "index.html": "/Slack-Clone-/index.html",
+    "main.f81d7245.css.map": "/Slack-Clone-/static/css/main.f81d7245.css.map",
+    "main.91795c3f.js.map": "/Slack-Clone-/static/js/main.91795c3f.js.map"
   },
   "entrypoints": [
     "static/css/main.f81d7245.css",
