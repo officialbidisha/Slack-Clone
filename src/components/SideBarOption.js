@@ -9,11 +9,9 @@ function SideBarOption({ Icon, title, addChannelOption, id }) {
   const dispatch = useDispatch();
 
   const addChannel = async () => {
-    debugger;
     const channelName = prompt("Please enter the channel name");
-    console.log(db);
     if (channelName) {
-      const docRef = await addDoc(collection(db, "rooms"), {
+      await addDoc(collection(db, "rooms"), {
         name: channelName,
       });
     }
