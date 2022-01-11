@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import classes from "./Chat.module.css";
 import StarOutlineOutlinedIcon from "@mui/icons-material/StarOutlineOutlined";
@@ -6,39 +6,65 @@ import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import { selectRoomId } from "../../src/features/appSlice";
 import ChatInput from "./ChatInput";
 import { useSelector } from "react-redux";
-
-import { useCollection } from "react-firebase-hooks/firestore";
 import {
+  collection,
   query,
   orderBy,
-  startAt,
-  getFirestore, collection 
+  getFirestore,
+  doc,
+  getDoc,
+  getDocs,
 } from "firebase/firestore";
-
-import { firebaseApp } from "../firebase";
+import Message from "./Message";
 
 function Chat() {
-    debugger;
   const roomId = useSelector(selectRoomId);
-  console.log(roomId);
-  const [roomRef, loading, error] =   useCollection( roomId && 
-    collection(getFirestore(firebaseApp), 'rooms', roomId, 'messages'),
-    {
-      snapshotListenOptions: { includeMetadataChanges: true },
+  const [channelNameData, setChannelNameData] = useState("");
+  const [messages, setChannelMessages] = useState([]);
+
+  useEffect(() => {
+    async function getRoomDetails() {
+      const db = getFirestore();
+      const docRef = roomId && doc(db, "rooms", roomId);
+      const docSnap = roomId && (await getDoc(docRef));
+      if (docSnap.exists()) {
+        setChannelNameData(docSnap.data().name);
+      }
     }
-  );
-  console.log(roomRef);
-  const roomM =  roomRef && query( roomRef);
+    async function getRoomMessages() {
+      const db = getFirestore();
 
+      const roomMessages =
+        (await roomId) &&
+        query(
+          collection(db, "rooms", roomId, "messages"),
+          orderBy("timestamp", "asc")
+        );
+      if (roomMessages) {
+        const querySnapShot = await getDocs(roomMessages);
+        const finalMessages = [];
+        querySnapShot.forEach((doc) => {
+          finalMessages.push({
+            id: doc.id,
+            value: doc.data(),
+          });
+        });
+        setChannelMessages(finalMessages);
+        console.log(messages);
+      }
+    }
 
- console.log(roomM);
+    getRoomDetails().then(() => {
+      getRoomMessages();
+    });
+  }, [roomId]);
 
   return (
     <div className={classes["chat-container"]}>
       <div className={classes.header}>
         <div className={classes["header-left"]}>
           <h4>
-            <strong>#RoomName</strong>
+            <strong>#{channelNameData}</strong>
           </h4>
           <StarOutlineOutlinedIcon className={classes.star} />
         </div>
@@ -49,12 +75,24 @@ function Chat() {
         </div>
       </div>
 
-      <div className={classes["chat-messages"]}></div>
+      <div className={classes["chat-messages"]}>
+        {messages?.map((doc) => {
+          const { message, timestamp, user, userImage } = doc.value;
+          return (
+            <Message
+              key={doc.id}
+              message={message}
+              timestamp={timestamp}
+              user={user}
+              userimage={userImage}
+            >
+              {message}
+            </Message>
+          );
+        })}
+      </div>
 
-      <ChatInput
-        // channelName={}
-        channelId={roomId}
-      />
+      <ChatInput channelName={channelNameData} channelId={roomId} />
     </div>
   );
 }
