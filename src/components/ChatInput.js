@@ -1,15 +1,13 @@
 import { Button } from '@mui/material'
-import React, {useRef, useState} from 'react'
+import React, { useState} from 'react'
 import classes from './ChatInput.module.css'
 import {db} from '../firebase';
 import { addDoc, collection, serverTimestamp } from 'firebase/firestore/lite';
  
 function ChatInput({channelName,channelId}) {
-    const inputRef = useRef(null);
     const [input, setInput] = useState("");
 
     const sendMessage = async e =>{
-        debugger;
         e.preventDefault();
         if(!channelId){
             return false;
