@@ -24,7 +24,7 @@ function App() {
             <Sidebar/>
             <Routes>
               <Route path="/users"></Route>
-              <Route path="/" element={<Chat/>}></Route>
+              <Route path="/"  exact element={<Chat/>}></Route>
             </Routes>
           </div>
         </>)}
