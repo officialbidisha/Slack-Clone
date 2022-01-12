@@ -1,11 +1,14 @@
 import { Button } from '@mui/material'
 import React, { useState} from 'react'
 import classes from './ChatInput.module.css'
-import {db} from '../firebase';
+import {db, auth} from '../firebase';
 import { addDoc, collection, serverTimestamp } from 'firebase/firestore/lite';
- 
+import { useAuthState } from "react-firebase-hooks/auth";
+
+
 function ChatInput({channelName,channelId}) {
     const [input, setInput] = useState("");
+    const [user, loading] = useAuthState(auth);
 
     const sendMessage = async e =>{
         e.preventDefault();
@@ -16,8 +19,8 @@ function ChatInput({channelName,channelId}) {
         await addDoc( collection(db, "rooms", channelId, "messages"),{
             message:input,
             timestamp: serverTimestamp(),
-            user: 'Bidisha Das',
-            userImage: "https://upload.wikimedia.org/wikipedia/commons/e/e0/Userimage.png"
+            user: user.displayName,
+            userImage: user.photoURL
 
         })
         setInput("");

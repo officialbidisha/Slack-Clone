@@ -19,8 +19,11 @@ import { getFirestore, collection } from "firebase/firestore";
 import {  firebaseApp } from "../../src/firebase";
 
 import classes from "./Sidebar.module.css";
+import { auth } from "../firebase";
+import { useAuthState } from "react-firebase-hooks/auth";
 
 function Sidebar() {
+  const [user] = useAuthState(auth);
   const [channels, loading, error] = useCollection(
     collection(getFirestore(firebaseApp), "rooms"),
     {
@@ -34,7 +37,7 @@ function Sidebar() {
           <h2>General</h2>
           <h3>
             <FiberManualRecordIcon className={classes["status-icon"]} />
-            Bidisha Das
+             {user.displayName}
           </h3>
         </div>
         <CreateIcon className={classes["edit-icon"]} />
