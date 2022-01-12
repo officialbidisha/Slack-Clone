@@ -16,17 +16,22 @@ import {
   getDocs,
 } from "firebase/firestore";
 import Message from "./Message";
-import { useCollection, useDocument } from 'react-firebase-hooks/firestore';
+import { useCollection, useDocument } from "react-firebase-hooks/firestore";
+import Tooltip from "@mui/material/Tooltip";
 
 function Chat() {
+  const funRef = useRef(null);
   const roomId = useSelector(selectRoomId);
   const chatRef = useRef(null);
   const [channelNameData, setChannelNameData] = useState("");
+  const [channelDescriptionData, setChannelDescriptionData] = useState("");
   const [messages, setChannelMessages] = useState([]);
-  const [roomMessages, loading] = useCollection(roomId && collection(getFirestore(), "rooms", roomId, "messages"),
-  {
-    snapshotListenOptions: { includeMetadataChanges: true },
-  });
+  const [roomMessages, loading] = useCollection(
+    roomId && collection(getFirestore(), "rooms", roomId, "messages"),
+    {
+      snapshotListenOptions: { includeMetadataChanges: true },
+    }
+  );
 
   useEffect(() => {
     async function getRoomDetails() {
@@ -35,6 +40,7 @@ function Chat() {
       const docSnap = roomId && (await getDoc(docRef));
       if (docSnap?.exists()) {
         setChannelNameData(docSnap.data().name);
+        setChannelDescriptionData(docSnap.data().description);
       }
     }
     async function getRoomMessages() {
@@ -89,16 +95,14 @@ function Chat() {
     getRoomMessages();
   },[messages, roomId])
 
-  useEffect(()=>{
+  useEffect(() => {
     chatRef?.current?.scrollIntoView({
-      behaviour:"smooth"
+      behaviour: "smooth",
     });
-  }, [roomId, loading])
+  }, [roomId, loading]);
 
-
-  return (
-    <div className={classes["chat-container"]}>
-      {}
+  let chatContent = (
+    <React.Fragment>
       <div className={classes.header}>
         <div className={classes["header-left"]}>
           <h4>
@@ -108,7 +112,10 @@ function Chat() {
         </div>
         <div className={classes["header-right"]}>
           <p>
-            <InfoOutlinedIcon className={classes.info} /> Details
+            Details
+            <Tooltip title={channelDescriptionData}>
+              <InfoOutlinedIcon className={classes.info} />
+            </Tooltip>
           </p>
         </div>
       </div>
@@ -132,6 +139,18 @@ function Chat() {
       </div>
 
       <ChatInput channelName={channelNameData} channelId={roomId} />
+    </React.Fragment>
+  );
+
+  let templateContent = (
+    <React.Fragment>
+      <p>Please select a channel from sidebar or add a channel</p>
+    </React.Fragment>
+  );
+  return (
+    <div className={classes["chat-container"]}>
+      {roomId && chatContent}
+      {!roomId && templateContent}
     </div>
   );
 }

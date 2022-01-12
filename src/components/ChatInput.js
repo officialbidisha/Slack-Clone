@@ -15,7 +15,7 @@ function ChatInput({channelName,channelId}) {
         if(!channelId){
             return false;
         }
-
+        setInput("");
         await addDoc( collection(db, "rooms", channelId, "messages"),{
             message:input,
             timestamp: serverTimestamp(),
@@ -23,7 +23,6 @@ function ChatInput({channelName,channelId}) {
             userImage: user.photoURL
 
         })
-        setInput("");
     }
 
     return (

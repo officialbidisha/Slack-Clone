@@ -9,6 +9,9 @@
     border-radius: 8px;
 }
 
+.message-container:last-of-type{
+    padding-bottom: 120px;
+}
 .message-info{
     padding-left: 10px;
 }
