@@ -5,14 +5,24 @@ import SearchIcon from '@mui/icons-material/Search';
 import HelpIcon from '@mui/icons-material/Help';
 import classes from "./Header.module.css";
 import { auth } from "../firebase";
+import {  signOut } from "firebase/auth";
 import { useAuthState } from "react-firebase-hooks/auth";
+import Tooltip from "@mui/material/Tooltip";
 function Header() {
   const [user] = useAuthState(auth);
+
+  const signout = () => {
+    signOut(auth).then(()=>{
+      console.log('Signed out!');
+    })
+  }
   return (
     <div className={classes["header-container"]}>
       <div className={classes["header-left"]}>
         <span className={classes["header-avatar"]}>
-          <AccountCircleIcon src={user.photoURL}/>
+        <Tooltip title='Sign Out'>
+          <AccountCircleIcon src={user.photoURL} onClick={signout}/>
+        </Tooltip>
         </span>
         <AccessTimeIcon className={classes["time-icon"]}/>
       </div>

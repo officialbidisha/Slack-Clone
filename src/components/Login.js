@@ -34,7 +34,7 @@ function Login() {
           src="https://cdn.mos.cms.futurecdn.net/SDDw7CnuoUGax6x9mTo7dd.jpg"
           alt=""
         />
-        <p>bidisha.slack.com</p>
+        <h4 style={{color: '#2db67e', marginBottom: '20px', textAlign: 'center'}}>Welcome to Slack Clone</h4>
         <Button variant="contained" type="sumit" onClick={signIn}>
           Sign in with Google
         </Button>
