@@ -144,7 +144,11 @@ function Chat() {
 
   let templateContent = (
     <React.Fragment>
-      <p>Please select a channel from sidebar or add a channel</p>
+      <div style={{display:"flex", justifyContent: "center", alignItems:"center", "height":" calc(100vh - 60px)"}}>
+        <h3 style={{color:"#3f0f40"}}>
+        Please select a channel from sidebar or add a channel
+        </h3>
+        </div>
     </React.Fragment>
   );
   return (
