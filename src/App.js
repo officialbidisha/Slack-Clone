@@ -68,7 +68,7 @@ function App() {
               <Sidebar />
               <Routes>
                 <Route path="/users"></Route>
-                <Route path="/Slack-Clone-/" exact element={<Chat />}></Route>
+                <Route path="/Slack-Clone/" exact element={<Chat />}></Route>
               </Routes>
             </div>
           </>
